@@ -32,11 +32,11 @@ release-download-distributions token commit:
 
 # Upload release artifacts to a GitHub release.
 release-upload-distributions token datetime tag:
-  cargo run --release -- upload-release-distributions --token {{token}} --datetime {{datetime}} --tag {{tag}} --dist dist
+  cargo run --release -- upload-release-distributions --token {{token}} --datetime {{datetime}} --tag {{tag}} --org samypr100 --ignore-missing --dist dist
 
 # "Upload" release artifacts to a GitHub release in dry-run mode (skip upload).
 release-upload-distributions-dry-run token datetime tag:
-  cargo run --release -- upload-release-distributions --token {{token}} --datetime {{datetime}} --tag {{tag}} --dist dist -n
+  cargo run --release -- upload-release-distributions --token {{token}} --datetime {{datetime}} --tag {{tag}} --org samypr100 --ignore-missing --dist dist -n
 
 # Promote a tag to "latest" by pushing to the `latest-release` branch.
 release-set-latest-release tag:
@@ -76,7 +76,6 @@ release-run token commit tag:
   just release-download-distributions {{token}} {{commit}}
   datetime=$(ls dist/cpython-3.10.*-x86_64-unknown-linux-gnu-install_only-*.tar.gz  | awk -F- '{print $8}' | awk -F. '{print $1}')
   just release-upload-distributions {{token}} ${datetime} {{tag}}
-  just release-set-latest-release {{tag}}
 
 # Perform a release in dry-run mode.
 release-dry-run token commit tag:

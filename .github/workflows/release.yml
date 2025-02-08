@@ -29,7 +29,7 @@ jobs:
   release:
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    runs-on: ubuntu-latest-large
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -53,28 +53,17 @@ jobs:
         if: ${{ github.event.inputs.dry-run == 'false' }}
         run: git fetch origin ${{ github.event.inputs.sha }}
 
-      # Associate the commit with the tag.
-      - name: Create tag
-        if: ${{ github.event.inputs.dry-run == 'false' }}
-        run: git tag ${{ github.event.inputs.tag }} ${{ github.event.inputs.sha }}
-
-      # Push the tag to GitHub.
-      - name: Push tag
-        if: ${{ github.event.inputs.dry-run == 'false' }}
-        run: git push origin ${{ github.event.inputs.tag }}
-
-      # Create a GitHub release.
-      - name: Create GitHub Release
-        if: ${{ github.event.inputs.dry-run == 'false' }}
-        uses: ncipollo/release-action@v1
-        with:
-          tag: ${{ github.event.inputs.tag }}
-          name: ${{ github.event.inputs.tag }}
-          prerelease: true
-          body: TBD
-          allowUpdates: true
-          updateOnlyUnreleased: true
-
       # Uploading the relevant artifact to the GitHub release.
       - run: just release-run ${{ secrets.GITHUB_TOKEN }} ${{ github.event.inputs.sha }} ${{ github.event.inputs.tag }}
         if: ${{ github.event.inputs.dry-run == 'false' }}
+
+      - run: ls -la dist/*
+        if: ${{ github.event.inputs.dry-run == 'false' }}
+
+      - name: Generate attestations
+        uses: actions/attest-build-provenance@v2
+        if: ${{ github.event.inputs.dry-run == 'false' }}
+        with:
+          subject-path: |
+            dist/*.tar.gz
+            dist/*.tar.zst

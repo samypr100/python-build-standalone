@@ -91,61 +91,10 @@ pub static RELEASE_TRIPLES: Lazy<BTreeMap<&'static str, TripleRelease>> = Lazy::
             }],
         },
     );
-    h.insert(
-        "x86_64-apple-darwin",
-        TripleRelease {
-            suffixes: macos_suffixes,
-            install_only_suffix: "pgo+lto",
-            python_version_requirement: None,
-            conditional_suffixes: vec![ConditionalSuffixes {
-                python_version_requirement: VersionSpecifier::from_str(">=3.13.0rc0").unwrap(),
-                suffixes: macos_suffixes_313.clone(),
-            }],
-        },
-    );
 
     // Windows.
     h.insert(
-        "i686-pc-windows-msvc",
-        TripleRelease {
-            suffixes: vec!["pgo"],
-            install_only_suffix: "pgo",
-            python_version_requirement: None,
-            conditional_suffixes: vec![ConditionalSuffixes {
-                python_version_requirement: VersionSpecifier::from_str(">=3.13").unwrap(),
-                suffixes: vec!["freethreaded+pgo"],
-            }],
-        },
-    );
-    h.insert(
         "x86_64-pc-windows-msvc",
-        TripleRelease {
-            suffixes: vec!["pgo"],
-            install_only_suffix: "pgo",
-            python_version_requirement: None,
-            conditional_suffixes: vec![ConditionalSuffixes {
-                python_version_requirement: VersionSpecifier::from_str(">=3.13").unwrap(),
-                suffixes: vec!["freethreaded+pgo"],
-            }],
-        },
-    );
-
-    // The 'shared-' prefix is no longer needed, but we're double-publishing under both names during
-    // the transition period.
-    h.insert(
-        "i686-pc-windows-msvc-shared",
-        TripleRelease {
-            suffixes: vec!["pgo"],
-            install_only_suffix: "pgo",
-            python_version_requirement: None,
-            conditional_suffixes: vec![ConditionalSuffixes {
-                python_version_requirement: VersionSpecifier::from_str(">=3.13").unwrap(),
-                suffixes: vec!["freethreaded+pgo"],
-            }],
-        },
-    );
-    h.insert(
-        "x86_64-pc-windows-msvc-shared",
         TripleRelease {
             suffixes: vec!["pgo"],
             install_only_suffix: "pgo",
@@ -168,84 +117,6 @@ pub static RELEASE_TRIPLES: Lazy<BTreeMap<&'static str, TripleRelease>> = Lazy::
     ];
 
     h.insert(
-        "aarch64-unknown-linux-gnu",
-        TripleRelease {
-            suffixes: linux_suffixes_nopgo.clone(),
-            install_only_suffix: "lto",
-            python_version_requirement: None,
-            conditional_suffixes: vec![ConditionalSuffixes {
-                python_version_requirement: VersionSpecifier::from_str(">=3.13").unwrap(),
-                suffixes: linux_suffixes_nopgo_freethreaded.clone(),
-            }],
-        },
-    );
-
-    h.insert(
-        "ppc64le-unknown-linux-gnu",
-        TripleRelease {
-            suffixes: linux_suffixes_nopgo.clone(),
-            install_only_suffix: "lto",
-            python_version_requirement: Some(VersionSpecifier::from_str(">=3.9").unwrap()),
-            conditional_suffixes: vec![ConditionalSuffixes {
-                python_version_requirement: VersionSpecifier::from_str(">=3.13").unwrap(),
-                suffixes: linux_suffixes_nopgo_freethreaded.clone(),
-            }],
-        },
-    );
-
-    h.insert(
-        "riscv64-unknown-linux-gnu",
-        TripleRelease {
-            suffixes: linux_suffixes_nopgo.clone(),
-            install_only_suffix: "lto",
-            python_version_requirement: Some(VersionSpecifier::from_str(">=3.9").unwrap()),
-            conditional_suffixes: vec![ConditionalSuffixes {
-                python_version_requirement: VersionSpecifier::from_str(">=3.13").unwrap(),
-                suffixes: linux_suffixes_nopgo_freethreaded.clone(),
-            }],
-        },
-    );
-
-    h.insert(
-        "s390x-unknown-linux-gnu",
-        TripleRelease {
-            suffixes: linux_suffixes_nopgo.clone(),
-            install_only_suffix: "lto",
-            python_version_requirement: Some(VersionSpecifier::from_str(">=3.9").unwrap()),
-            conditional_suffixes: vec![ConditionalSuffixes {
-                python_version_requirement: VersionSpecifier::from_str(">=3.13").unwrap(),
-                suffixes: linux_suffixes_nopgo_freethreaded.clone(),
-            }],
-        },
-    );
-
-    h.insert(
-        "armv7-unknown-linux-gnueabi",
-        TripleRelease {
-            suffixes: linux_suffixes_nopgo.clone(),
-            install_only_suffix: "lto",
-            python_version_requirement: Some(VersionSpecifier::from_str(">=3.9").unwrap()),
-            conditional_suffixes: vec![ConditionalSuffixes {
-                python_version_requirement: VersionSpecifier::from_str(">=3.13").unwrap(),
-                suffixes: linux_suffixes_nopgo_freethreaded.clone(),
-            }],
-        },
-    );
-
-    h.insert(
-        "armv7-unknown-linux-gnueabihf",
-        TripleRelease {
-            suffixes: linux_suffixes_nopgo.clone(),
-            install_only_suffix: "lto",
-            python_version_requirement: Some(VersionSpecifier::from_str(">=3.9").unwrap()),
-            conditional_suffixes: vec![ConditionalSuffixes {
-                python_version_requirement: VersionSpecifier::from_str(">=3.13").unwrap(),
-                suffixes: linux_suffixes_nopgo_freethreaded.clone(),
-            }],
-        },
-    );
-
-    h.insert(
         "x86_64-unknown-linux-gnu",
         TripleRelease {
             suffixes: linux_suffixes_pgo.clone(),
@@ -255,79 +126,6 @@ pub static RELEASE_TRIPLES: Lazy<BTreeMap<&'static str, TripleRelease>> = Lazy::
                 python_version_requirement: VersionSpecifier::from_str(">=3.13").unwrap(),
                 suffixes: linux_suffixes_pgo_freethreaded.clone(),
             }],
-        },
-    );
-    h.insert(
-        "x86_64_v2-unknown-linux-gnu",
-        TripleRelease {
-            suffixes: linux_suffixes_pgo.clone(),
-            install_only_suffix: "pgo+lto",
-            python_version_requirement: Some(VersionSpecifier::from_str(">=3.9").unwrap()),
-            conditional_suffixes: vec![ConditionalSuffixes {
-                python_version_requirement: VersionSpecifier::from_str(">=3.13").unwrap(),
-                suffixes: linux_suffixes_pgo_freethreaded.clone(),
-            }],
-        },
-    );
-    h.insert(
-        "x86_64_v3-unknown-linux-gnu",
-        TripleRelease {
-            suffixes: linux_suffixes_pgo.clone(),
-            install_only_suffix: "pgo+lto",
-            python_version_requirement: Some(VersionSpecifier::from_str(">=3.9").unwrap()),
-            conditional_suffixes: vec![ConditionalSuffixes {
-                python_version_requirement: VersionSpecifier::from_str(">=3.13").unwrap(),
-                suffixes: linux_suffixes_pgo_freethreaded.clone(),
-            }],
-        },
-    );
-    h.insert(
-        "x86_64_v4-unknown-linux-gnu",
-        TripleRelease {
-            suffixes: linux_suffixes_pgo.clone(),
-            install_only_suffix: "pgo+lto",
-            python_version_requirement: Some(VersionSpecifier::from_str(">=3.9").unwrap()),
-            conditional_suffixes: vec![ConditionalSuffixes {
-                python_version_requirement: VersionSpecifier::from_str(">=3.13").unwrap(),
-                suffixes: linux_suffixes_pgo_freethreaded.clone(),
-            }],
-        },
-    );
-    // TODO: Python 3.14 support on musl
-    h.insert(
-        "x86_64-unknown-linux-musl",
-        TripleRelease {
-            suffixes: linux_suffixes_nopgo.clone(),
-            install_only_suffix: "lto",
-            python_version_requirement: Some(VersionSpecifier::from_str("<3.14").unwrap()),
-            conditional_suffixes: vec![],
-        },
-    );
-    h.insert(
-        "x86_64_v2-unknown-linux-musl",
-        TripleRelease {
-            suffixes: linux_suffixes_nopgo.clone(),
-            install_only_suffix: "lto",
-            python_version_requirement: Some(VersionSpecifier::from_str("<3.14").unwrap()),
-            conditional_suffixes: vec![],
-        },
-    );
-    h.insert(
-        "x86_64_v3-unknown-linux-musl",
-        TripleRelease {
-            suffixes: linux_suffixes_nopgo.clone(),
-            install_only_suffix: "lto",
-            python_version_requirement: Some(VersionSpecifier::from_str("<3.14").unwrap()),
-            conditional_suffixes: vec![],
-        },
-    );
-    h.insert(
-        "x86_64_v4-unknown-linux-musl",
-        TripleRelease {
-            suffixes: linux_suffixes_nopgo.clone(),
-            install_only_suffix: "lto",
-            python_version_requirement: Some(VersionSpecifier::from_str("<3.14").unwrap()),
-            conditional_suffixes: vec![],
         },
     );
 
